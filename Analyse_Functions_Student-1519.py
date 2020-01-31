@@ -104,7 +104,7 @@ def dictionary_of_metrics(items):
 
     mean = lambda data : sum(data)/len(data)
         
-    maximum = lambda data : max(data)
+    maxim = lambda data : max(data)
     
     minimum = lambda data : min(data)
     
@@ -135,7 +135,7 @@ def dictionary_of_metrics(items):
         return v
     
     met_dic = {'mean':mean(data), 'median':mid(data), 'variance':var(data),
-               'standard deviation':stdv(data), 'min':minimum(data), 'max':maximum(data)}
+               'standard deviation':stdv(data), 'min':minimum(data), 'max':maxim(data)}
     
     return met_dic
 
