@@ -87,10 +87,7 @@ def five_num_summ(data):
     return fns
 
 def date_parser(list_dates):
-
-  ### Code Here
-
-  pass
+    return [list_dates[i].split()[0] for i in range(len(list_dates))]
 
 def extract_municipality_hashtags(df):
 
