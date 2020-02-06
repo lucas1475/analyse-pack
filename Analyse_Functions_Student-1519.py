@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
+import numpy as np
+import pandas as pd
+
 def dictionary_of_metrics(data):
 
     mean = lambda data : sum(data)/len(data)
@@ -91,9 +94,27 @@ def date_parser(list_dates):
 
 def extract_municipality_hashtags(df):
 
-  ### Code Here
+    municipality_dict = { '@CityofCTAlerts' : 'Cape Town',
+            '@CityPowerJhb' : 'Johannesburg',
+            '@eThekwiniM' : 'eThekwini' ,
+            '@EMMInfo' : 'Ekurhuleni',
+            '@centlecutility' : 'Mangaung',
+            '@NMBmunicipality' : 'Nelson Mandela Bay',
+            '@CityTshwane' : 'Tshwane'}
+    hashes = [list(filter(lambda x: x.startswith("#"), df['Tweets'][i].split())) for i in range(len(df.index.values))]
+    hashtags = pd.DataFrame([np.nan if x == [] else x for x in hashes ], columns=['hashtags']) 
+    
+    m1 = [list(filter(lambda x: x.startswith("@"), df['Tweets'][i].split())) for i in range(len(df.index.values))]
+    flat_m1 = []
+    for sublist in m1:
+        for item in sublist:
+            flat_m1.append(item)
+            
+    municipality = pd.DataFrame([x if x in municipality_dict else np.nan for x in flat_m1], columns=['municipality'])
+    extracted_municipality = df.join(municipality, lsuffix='Date', rsuffix='municipality')
+    extracted_municipality_hashtags = extracted_municipality.join(hashtags, lsuffix='municipality', rsuffix='hashtags')
 
-  pass
+    return extracted_municipality_hashtags
 
 
 def number_of_tweets_per_day(df):
